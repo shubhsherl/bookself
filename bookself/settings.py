@@ -24,9 +24,15 @@ SECRET_KEY = 'bdkge==z1=%)%@08y65fcb-dd+mphb!w8m^q8-x%n6q0bayqq)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PROJECT_APPS = [
+    'users',
+    'books',
+    'bookrequests',
+]
 
 # Application definition
 
@@ -37,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'django_extensions',
+] + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,10 +58,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'bookself.urls'
 
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'users/templates/registration'),
+                 os.path.join(BASE_DIR, 'users/templates/users'),
+                 os.path.join(BASE_DIR, 'books/templates/books'), 
+                 os.path.join(BASE_DIR, 'bookrequests/templates/bookrequests'), 
+                 ]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': TEMPLATE_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,7 +128,15 @@ USE_L10N = True
 USE_TZ = True
 
 
+LOGIN_URL = '/users/login/'
+
+LOGIN_REDIRECT_URL = '/users/home'
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
